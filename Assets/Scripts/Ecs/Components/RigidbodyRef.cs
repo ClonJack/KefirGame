@@ -2,7 +2,7 @@
 
 namespace Asteroids.Components
 {
-    public struct RigidbodyData
+    public struct RigidbodyRef
     {
         public Rigidbody2D Rigidbody;
     }

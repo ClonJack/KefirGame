@@ -8,7 +8,7 @@ namespace ECS.Systems
 {
     public class PlayerInputSystem : IEcsInitSystem
     {
-        private readonly EcsFilterInject<Inc<PlayerData, DirectionData>> _filter = default;
+        private readonly EcsFilterInject<Inc<Player, DirectionData>> _filter = default;
         private readonly EcsPoolInject<DirectionData> _directionDataPool = default;
         private readonly EcsCustomInject<PlayerInput> _playerInput = default;
 

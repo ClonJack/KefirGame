@@ -12,10 +12,10 @@ namespace ECS.Systems
         private readonly EcsCustomInject<MainConfig> _mainConfig = default;
 
         private readonly EcsPoolInject<MovementData> _movementDataPool = default;
-        private readonly EcsPoolInject<PlayerData> _playerDataPool = default;
+        private readonly EcsPoolInject<Player> _playerDataPool = default;
         private readonly EcsPoolInject<DirectionData> _directionDataPool = default;
-        private readonly EcsPoolInject<UnitData> _unitDataPool = default;
-        private readonly EcsPoolInject<RigidbodyData> _rigiBodyDataPool = default;
+        private readonly EcsPoolInject<TransformRef> _unitDataPool = default;
+        private readonly EcsPoolInject<RigidbodyRef> _rigiBodyDataPool = default;
         public void Init(IEcsSystems systems)
         {
             var entity = _ecsWorld.Value.NewEntity();

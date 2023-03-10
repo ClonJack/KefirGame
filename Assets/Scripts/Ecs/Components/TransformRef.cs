@@ -2,7 +2,7 @@
 
 namespace Asteroids.Components
 {
-    public struct UnitData
+    public struct TransformRef
     {
         public Transform Unit;
     }

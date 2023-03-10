@@ -1,6 +1,6 @@
 ﻿namespace Asteroids.Components
 {
-    public struct PlayerData
+    public struct Player
     {
         
     }

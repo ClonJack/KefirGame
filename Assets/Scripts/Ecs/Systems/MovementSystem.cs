@@ -7,14 +7,12 @@ namespace ECS.Systems
 {
     public class MovementSystem : IEcsRunSystem
     {
-        private readonly EcsFilterInject<Inc<UnitData, MovementData, DirectionData, RigidbodyData>> _filter = default;
-        
-        private readonly EcsPoolInject<MovementData> _movementDataPool = default;
-        private readonly EcsPoolInject<UnitData> _unitDataPool = default;
-        private readonly EcsPoolInject<DirectionData> _directionDataPool = default;
-        private readonly EcsPoolInject<RigidbodyData> _rigiBodyDataPool = default;
+        private readonly EcsFilterInject<Inc<TransformRef, MovementData, DirectionData, RigidbodyRef>> _filter = default;
 
-        private Vector3 velicoty;
+        private readonly EcsPoolInject<MovementData> _movementDataPool = default;
+        private readonly EcsPoolInject<TransformRef> _unitDataPool = default;
+        private readonly EcsPoolInject<DirectionData> _directionDataPool = default;
+        private readonly EcsPoolInject<RigidbodyRef> _rigiBodyDataPool = default;
 
         public void Run(IEcsSystems systems)
         {
@@ -25,9 +23,11 @@ namespace ECS.Systems
                 ref var directionData = ref _directionDataPool.Value.Get(entity);
                 ref var rigidbodyData = ref _rigiBodyDataPool.Value.Get(entity);
 
-                unitData.Unit.Rotate(directionData.Rotation * (movementData.RotationSpeed * Time.fixedDeltaTime));
-                var target = (directionData.Direction * (movementData.MoveSpeed * Time.fixedDeltaTime));
-                rigidbodyData.Rigidbody.AddRelativeForce(target, ForceMode2D.Impulse);
+                var targetRotate = directionData.Rotation * (movementData.RotationSpeed * Time.fixedDeltaTime);
+                unitData.Unit.Rotate(targetRotate);
+                
+                var targetMove = (directionData.Direction * (movementData.MoveSpeed * Time.fixedDeltaTime));
+                rigidbodyData.Rigidbody.AddRelativeForce(targetMove, ForceMode2D.Impulse);
             }
         }
     }
