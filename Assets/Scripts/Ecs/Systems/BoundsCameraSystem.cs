@@ -7,14 +7,12 @@ namespace ECS.Systems
 {
     public class BoundsCameraSystem : IEcsInitSystem, IEcsRunSystem
     {
-        private readonly EcsFilterInject<Inc<Player, ComponentRef<Transform>>> _filter = default;
+        private readonly EcsFilterInject<Inc<Player, ComponentRef<Rigidbody2D>>> _filter = default;
 
-        private readonly EcsPoolInject<ComponentRef<Transform>> _transformRefPool = default;
-        private readonly EcsPoolInject<Player> _playerDataPool = default;
+        private readonly EcsPoolInject<ComponentRef<Rigidbody2D>> _rigidbodyRefPool = default;
 
         private Vector3 _maxBoundCamera;
         private Vector3 _minBoundCamera;
-
         public void Init(IEcsSystems systems)
         {
             _maxBoundCamera = Camera.main.ViewportToWorldPoint(Vector2.one);
@@ -25,30 +23,19 @@ namespace ECS.Systems
         {
             foreach (var entity in _filter.Value)
             {
-                ref var transformRef = ref _transformRefPool.Value.Get(entity);
-                var currentPosition = new Vector2(transformRef.Component.transform.position.x,
-                    transformRef.Component.transform.position.y);
+                ref var rigidbodyRef = ref _rigidbodyRefPool.Value.Get(entity);
+                var currentPosition = new Vector2(rigidbodyRef.Component.transform.position.x,
+                    rigidbodyRef.Component.transform.position.y);
                 
                 if (currentPosition.y > _maxBoundCamera.y)
-                {
-                    currentPosition = -currentPosition + Vector2.up;
-                }
-                
+                    rigidbodyRef.Component.MovePosition(-currentPosition + Vector2.up);
                 else if (currentPosition.y < _minBoundCamera.y)
-                {
-                    currentPosition = -currentPosition + Vector2.down;
-                }
+                    rigidbodyRef.Component.MovePosition(-currentPosition + Vector2.down);
                 else if (currentPosition.x > _maxBoundCamera.x)
-                {
-                    currentPosition = -currentPosition + Vector2.right;
-                }
-                
+                    rigidbodyRef.Component.MovePosition(-currentPosition + Vector2.right);
                 else if (currentPosition.x < _minBoundCamera.x)
-                {
-                    currentPosition = -currentPosition + Vector2.left;
-                }
-
-                transformRef.Component.position = currentPosition;
+                    rigidbodyRef.Component.MovePosition(-currentPosition + Vector2.left);
+                
             }
         }
     }

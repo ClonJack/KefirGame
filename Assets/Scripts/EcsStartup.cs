@@ -33,13 +33,13 @@ namespace Asteroids.ECS
 
             _systemUpdate
                 .Add(new PlayerInputSystem())
-                .Add(new BoundsCameraSystem())
                 .Inject(_inputService)
                 .Init();
 
             _systemsFixedUpdate
                 .Add(new PlayerInitSystem())
                 .Add(new MovementSystem())
+                .Add(new BoundsCameraSystem())
                 .Inject(_mainConfig)
                 .Init();
         }
