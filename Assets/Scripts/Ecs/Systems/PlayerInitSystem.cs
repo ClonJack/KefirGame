@@ -14,8 +14,8 @@ namespace ECS.Systems
         private readonly EcsPoolInject<MovementData> _movementDataPool = default;
         private readonly EcsPoolInject<Player> _playerDataPool = default;
         private readonly EcsPoolInject<DirectionData> _directionDataPool = default;
-        private readonly EcsPoolInject<TransformRef> _unitDataPool = default;
-        private readonly EcsPoolInject<RigidbodyRef> _rigiBodyDataPool = default;
+        private readonly EcsPoolInject<ComponentRef<Rigidbody2D>> _rigiBodyRefPool = default;
+        private readonly EcsPoolInject<ComponentRef<Transform>> _transformRefPool = default;
         public void Init(IEcsSystems systems)
         {
             var entity = _ecsWorld.Value.NewEntity();
@@ -31,11 +31,11 @@ namespace ECS.Systems
             ref var directionData = ref _directionDataPool.Value.Add(entity);
             directionData.Forward = player.transform.up;
 
-            ref var unitData = ref _unitDataPool.Value.Add(entity);
-            unitData.Unit = player.transform;
+            ref var rigiBodyData = ref _rigiBodyRefPool.Value.Add(entity);
+            rigiBodyData.Component = player.GetComponent<Rigidbody2D>();
 
-            ref var rigiBodyData = ref _rigiBodyDataPool.Value.Add(entity);
-            rigiBodyData.Rigidbody = player.GetComponent<Rigidbody2D>();
+            ref var transformRef = ref _transformRefPool.Value.Add(entity);
+            transformRef.Component = player.transform;
         }
     }
 }

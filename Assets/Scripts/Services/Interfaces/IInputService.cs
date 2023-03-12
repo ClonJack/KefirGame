@@ -1,7 +1,9 @@
-﻿namespace Asteroids.Services
+﻿using UnityEngine;
+
+namespace Asteroids.Services
 {
-    public interface IInput
+    public interface IInputService
     {
-     
+        public Vector2 Axis { get; set; }
     }
 }
