@@ -1,9 +1,11 @@
 using System;
+using Asteroids.Components;
 using Asteroids.Configuration;
 using Asteroids.Services;
 using ECS.Systems;
 using Leopotam.EcsLite;
 using Leopotam.EcsLite.Di;
+using Leopotam.EcsLite.ExtendedSystems;
 using UnityEngine;
 
 namespace Asteroids.ECS
@@ -11,6 +13,7 @@ namespace Asteroids.ECS
     sealed class EcsStartup : MonoBehaviour
     {
         [SerializeField] private MainConfig _mainConfig = default;
+        [SerializeField] private PoolServices _poolServices = default;
 
         private InputService _inputService = default;
         private EcsWorld _world = default;
@@ -34,13 +37,23 @@ namespace Asteroids.ECS
             _systemUpdate
                 .Add(new PlayerInputSystem())
                 .Inject(_inputService)
+               
                 .Init();
 
             _systemsFixedUpdate
                 .Add(new PlayerInitSystem())
                 .Add(new MovementSystem())
                 .Add(new BoundsCameraSystem())
+                .Add(new AttackTriggerSystem())
+                .Add(new AttackSystem())
+                .Add(new SceneInitSystem())
+                
+                .DelHere<AttackAction>()
+                .DelHere<ShotData>()
+                
                 .Inject(_mainConfig)
+                .Inject(_poolServices)
+                
                 .Init();
         }
 
