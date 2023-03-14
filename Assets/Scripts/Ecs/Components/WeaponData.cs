@@ -1,8 +1,7 @@
 namespace Asteroids.Components
 {
-    public struct WeaponRef
+    public struct WeaponData
     {
         public float Speed;
-        
     }
 }

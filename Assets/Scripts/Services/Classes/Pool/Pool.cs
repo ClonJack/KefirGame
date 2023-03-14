@@ -4,26 +4,26 @@ using UnityEngine.Pool;
 namespace Asteroids.Services
 {
     [System.Serializable]
-    public class AmmoPool 
+    public class Pool<T> where T : Component
     {
-        private IObjectPool<GameObject> _pool;
-        [SerializeField] private GameObject _ammoParticle;
+        [SerializeField] private T _instance;
 
-        public IObjectPool<GameObject> GetPool()
+        private IObjectPool<T> _pool;
+
+        public IObjectPool<T> GetPool()
         {
             if (_pool == null)
             {
-                _pool = new ObjectPool<GameObject>(CreatePooledItem, OnTakeFromPool,
+                _pool = new ObjectPool<T>(CreatePooledItem, OnTakeFromPool,
                     OnReturnedToPool,
                     OnDestroyPoolObject);
             }
 
             return _pool;
         }
-
-        private void OnDestroyPoolObject(GameObject param) => Object.Destroy(param.gameObject);
-        private void OnReturnedToPool(GameObject param) => param.gameObject.SetActive(false);
-        private void OnTakeFromPool(GameObject param) => param.gameObject.SetActive(true);
-        private GameObject CreatePooledItem() => Object.Instantiate(_ammoParticle);
+        private void OnDestroyPoolObject(T param) => Object.Destroy(param.gameObject);
+        private void OnReturnedToPool(T param) => param.gameObject.SetActive(false);
+        private void OnTakeFromPool(T param) => param.gameObject.SetActive(true);
+        private T CreatePooledItem() => Object.Instantiate(_instance);
     }
 }

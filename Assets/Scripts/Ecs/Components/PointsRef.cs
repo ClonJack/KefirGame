@@ -3,7 +3,7 @@ using UnityEngine;
 
 namespace Asteroids.Components
 {
-    public struct WeaponData
+    public struct PointsRef
     {
         public List<Transform> Points;
     }
