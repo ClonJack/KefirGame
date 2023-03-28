@@ -11,11 +11,8 @@ namespace Asteroids.Configuration
         private float rotationSpeed;
         [SerializeField] 
         private float moveSpeed;
-        [Header("Shot Option")] [SerializeField]
-        private ModelShot _modelShot;
         public float RotationSpeed => rotationSpeed;
         public float MoveSpeed => moveSpeed;
         public GameObject Prefab => _prefab;
-        public ModelShot ModelShot => _modelShot;
     }
 }

@@ -8,28 +8,32 @@ namespace ECS.Systems
 {
     public class AttackSystem : IEcsRunSystem
     {
-        private readonly EcsFilterInject<Inc<ShotData, PointsRef, ComponentRef<Transform>, WeaponData>> _filter =
-            default;
+        private readonly EcsFilterInject<Inc<AbilityData, AttackAction, Player, ShotData, ComponentRef<Transform>>>
+            _filter =
+                default;
 
-        private readonly EcsPoolInject<WeaponData> _weaponDataPool = default;
+        private readonly EcsPoolInject<ShotData> _shotDataPool = default;
+        private readonly EcsPoolInject<AbilityData> _abilityDataPool = default;
+        private readonly EcsPoolInject<AttackAction> _attackActionPool = default;
+        private readonly EcsPoolInject<Player> _playerPool = default;
 
-        private readonly EcsPoolInject<PointsRef> _pointsRefPool = default;
-        private readonly EcsPoolInject<ComponentRef<Transform>> _transformRefPool = default;
+        private readonly EcsPoolInject<ComponentRef<Transform>> _pointRefPool = default;
+
         private readonly EcsCustomInject<PoolServices> _servicesRefPool = default;
 
         public void Run(IEcsSystems systems)
         {
             foreach (var entity in _filter.Value)
             {
-                ref var transformRef = ref _transformRefPool.Value.Get(entity);
-                ref var pointsRef = ref _pointsRefPool.Value.Get(entity);
+                ref var abilityData = ref _abilityDataPool.Value.Get(entity);
+                ref var attackAction = ref _attackActionPool.Value.Get(entity);
+                ref var playerData = ref _playerPool.Value.Get(entity);
+                ref var pointRef = ref _pointRefPool.Value.Get(entity);
+                ref var shotData = ref _shotDataPool.Value.Get(entity);
 
-                ref var weaponData = ref _weaponDataPool.Value.Get(entity);
-
-                var getRandom = pointsRef.Points[Random.Range(0, pointsRef.Points.Count)]; // убрать рандом отсюда(???)
                 var bullet = _servicesRefPool.Value.BallPool.GetPool().Get();
-                bullet.transform.position = getRandom.position;
-                bullet.AddRelativeForce(transformRef.Component.up * (weaponData.Speed * Time.fixedDeltaTime));
+                bullet.transform.position = pointRef.Component.position;
+                bullet.AddRelativeForce(pointRef.Component.up * (abilityData.Speed * Time.fixedDeltaTime));
             }
         }
     }

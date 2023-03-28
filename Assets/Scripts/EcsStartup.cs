@@ -3,6 +3,7 @@ using Asteroids.Components;
 using Asteroids.Configuration;
 using Asteroids.Services;
 using ECS.Systems;
+using InputControl;
 using Leopotam.EcsLite;
 using Leopotam.EcsLite.Di;
 using Leopotam.EcsLite.ExtendedSystems;
@@ -15,17 +16,20 @@ namespace Asteroids.ECS
         [SerializeField] private MainConfig _mainConfig = default;
         [SerializeField] private PoolServices _poolServices = default;
 
-        private InputService _inputService = default;
+        private ServiceInput _serviceInput = default;
         private EcsWorld _world = default;
-        private IEcsSystems _systemsFixedUpdate = default;
-        private IEcsSystems _systemUpdate = default;
 
+        private IEcsSystems _systemUpdate = default;
+        private IEcsSystems _systemsFixedUpdate = default;
+
+        private void Awake()
+        {
+            _serviceInput = new ServiceInput();
+            _serviceInput.Init();
+        }
 
         private void Start()
         {
-            _inputService = new InputService();
-            _inputService.Enable();
-
             _world = new EcsWorld();
             _systemsFixedUpdate = new EcsSystems(_world);
             _systemUpdate = new EcsSystems(_world);
@@ -33,11 +37,9 @@ namespace Asteroids.ECS
             _systemsFixedUpdate.Add(new Leopotam.EcsLite.UnityEditor.EcsWorldDebugSystem());
 #endif
 
-
             _systemUpdate
                 .Add(new PlayerInputSystem())
-                .Inject(_inputService)
-               
+                .Inject(_serviceInput)
                 .Init();
 
             _systemsFixedUpdate
@@ -47,13 +49,9 @@ namespace Asteroids.ECS
                 .Add(new AttackTriggerSystem())
                 .Add(new AttackSystem())
                 .Add(new SceneInitSystem())
-                
-                .DelHere<AttackAction>()
                 .DelHere<ShotData>()
-                
                 .Inject(_mainConfig)
                 .Inject(_poolServices)
-                
                 .Init();
         }
 
@@ -67,11 +65,18 @@ namespace Asteroids.ECS
             _systemsFixedUpdate?.Run();
         }
 
+        private void OnEnable()
+        {
+            _serviceInput.Enable();
+        }
+
+        private void OnDisable()
+        {
+            _serviceInput.Disable();
+        }
 
         private void OnDestroy()
         {
-            _inputService.Disable();
-            
             if (_systemsFixedUpdate != null)
             {
                 _systemsFixedUpdate.Destroy();

@@ -12,15 +12,11 @@ namespace Asteroids.Services
 
         public IObjectPool<T> GetPool()
         {
-            if (_pool == null)
-            {
-                _pool = new ObjectPool<T>(CreatePooledItem, OnTakeFromPool,
-                    OnReturnedToPool,
-                    OnDestroyPoolObject);
-            }
-
-            return _pool;
+            return _pool ??= new ObjectPool<T>(CreatePooledItem, OnTakeFromPool,
+                OnReturnedToPool,
+                OnDestroyPoolObject);
         }
+
         private void OnDestroyPoolObject(T param) => Object.Destroy(param.gameObject);
         private void OnReturnedToPool(T param) => param.gameObject.SetActive(false);
         private void OnTakeFromPool(T param) => param.gameObject.SetActive(true);

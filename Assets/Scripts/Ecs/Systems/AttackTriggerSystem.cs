@@ -7,24 +7,32 @@ namespace ECS.Systems
 {
     public class AttackTriggerSystem : IEcsRunSystem
     {
-        private readonly EcsFilterInject<Inc<AttackAction, CoolDownData>> _filter = default;
-        private readonly EcsPoolInject<CoolDownData> _coolDownDataPool = default;
-        private readonly EcsPoolInject<ShotData> _shotData = default;
-        
+        private readonly EcsFilterInject<Inc<AbilityData>> _filter = default;
+
+        private readonly EcsPoolInject<AttackAction> _attackActionPool = default;
+        private readonly EcsPoolInject<AbilityData> _abilityDataPool = default;
+        private readonly EcsPoolInject<ShotData> _shotDataPool = default;
+
         public void Run(IEcsSystems systems)
         {
             foreach (var entity in _filter.Value)
             {
-                ref var coolDownData = ref _coolDownDataPool.Value.Get(entity);
-                coolDownData.CoolDown -= Time.deltaTime;
-                if (coolDownData.CoolDown <= 0)
+                ref var abilityData = ref _abilityDataPool.Value.Get(entity);
+
+                if (!_attackActionPool.Value.Has(entity))
                 {
-                    coolDownData.CoolDown = coolDownData.MaxCoolDown;
-                    _shotData.Value.Add(entity);
+                    abilityData.Timer = abilityData.CoolDown;
+                    continue;
                 }
+
+                if (abilityData.Timer <= 0)
+                {
+                    abilityData.Timer = _attackActionPool.Value.Has(entity) ? abilityData.CoolDown : 0;
+                    _shotDataPool.Value.Add(entity);
+                }
+
+                abilityData.Timer -= Time.deltaTime;
             }
         }
-        
-        
     }
 }

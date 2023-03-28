@@ -1,8 +1,8 @@
 {
-    "name": "PlayerInput",
+    "name": "GameInput",
     "maps": [
         {
-            "name": "Player",
+            "name": "Ship",
             "id": "39793069-76c0-404a-a4b5-6c3d5c0034ec",
             "actions": [
                 {
@@ -17,11 +17,11 @@
                 {
                     "name": "Shot",
                     "type": "Button",
-                    "id": "65f84d06-1fc8-4636-bd4d-52b4c9875be1",
+                    "id": "21ed4b11-fe88-4928-a7eb-2d31987e4a82",
                     "expectedControlType": "Button",
                     "processors": "",
                     "interactions": "",
-                    "initialStateCheck": false
+                    "initialStateCheck": true
                 }
             ],
             "bindings": [
@@ -42,7 +42,7 @@
                     "path": "<Keyboard>/w",
                     "interactions": "",
                     "processors": "",
-                    "groups": "",
+                    "groups": "Game",
                     "action": "Axis",
                     "isComposite": false,
                     "isPartOfComposite": true
@@ -126,11 +126,11 @@
                 },
                 {
                     "name": "",
-                    "id": "ce8521bd-5c52-46a4-a764-9104f4a1331b",
+                    "id": "19b22ba9-c56a-4227-b237-18c6a5a55bcd",
                     "path": "<Keyboard>/space",
-                    "interactions": "",
+                    "interactions": "Press(behavior=2)",
                     "processors": "",
-                    "groups": "",
+                    "groups": "Game",
                     "action": "Shot",
                     "isComposite": false,
                     "isPartOfComposite": false
@@ -140,9 +140,25 @@
     ],
     "controlSchemes": [
         {
-            "name": "New control scheme",
-            "bindingGroup": "New control scheme",
-            "devices": []
+            "name": "Game",
+            "bindingGroup": "Game",
+            "devices": [
+                {
+                    "devicePath": "<Gamepad>",
+                    "isOptional": false,
+                    "isOR": false
+                },
+                {
+                    "devicePath": "<Mouse>",
+                    "isOptional": false,
+                    "isOR": false
+                },
+                {
+                    "devicePath": "<Keyboard>",
+                    "isOptional": false,
+                    "isOR": false
+                }
+            ]
         }
     ]
 }

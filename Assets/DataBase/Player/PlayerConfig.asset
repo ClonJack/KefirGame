@@ -19,3 +19,4 @@ MonoBehaviour:
     CoolDown: 1
     Damage: 50
     Speed: 800
+    EWeaponShot: 0
