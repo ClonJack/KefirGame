@@ -1,4 +1,3 @@
-using System;
 using Asteroids.Components;
 using Asteroids.Configuration;
 using Asteroids.Services;
@@ -16,7 +15,8 @@ namespace Asteroids.ECS
         [SerializeField] private MainConfig _mainConfig = default;
         [SerializeField] private PoolServices _poolServices = default;
 
-        private ServiceInput _serviceInput = default;
+        private InputGameControl _inputGameControl = default;
+        private InputService _inputService = default;
         private EcsWorld _world = default;
 
         private IEcsSystems _systemUpdate = default;
@@ -24,8 +24,11 @@ namespace Asteroids.ECS
 
         private void Awake()
         {
-            _serviceInput = new ServiceInput();
-            _serviceInput.Init();
+            _inputGameControl = new InputGameControl();
+            _inputGameControl.Init();
+
+            _inputService = new InputService(_inputGameControl);
+            
         }
 
         private void Start()
@@ -39,14 +42,16 @@ namespace Asteroids.ECS
 
             _systemUpdate
                 .Add(new PlayerInputSystem())
-                .Inject(_serviceInput)
+                .Add(new AttackTriggerSystem())
+                .Add(new AmmoLifeTimeSystem())
+                .Inject(_inputService)
+                .Inject(_poolServices)
                 .Init();
 
             _systemsFixedUpdate
                 .Add(new PlayerInitSystem())
                 .Add(new MovementSystem())
                 .Add(new BoundsCameraSystem())
-                .Add(new AttackTriggerSystem())
                 .Add(new AttackSystem())
                 .Add(new SceneInitSystem())
                 .DelHere<ShotData>()
@@ -58,6 +63,7 @@ namespace Asteroids.ECS
         private void Update()
         {
             _systemUpdate?.Run();
+            _inputService?.Update();
         }
 
         private void FixedUpdate()
@@ -67,12 +73,12 @@ namespace Asteroids.ECS
 
         private void OnEnable()
         {
-            _serviceInput.Enable();
+            _inputGameControl.Enable();
         }
 
         private void OnDisable()
         {
-            _serviceInput.Disable();
+            _inputGameControl.Disable();
         }
 
         private void OnDestroy()

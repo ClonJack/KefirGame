@@ -24,7 +24,7 @@ public partial class @GameInput : IInputActionCollection2, IDisposable
     ""name"": ""GameInput"",
     ""maps"": [
         {
-            ""name"": ""Ship"",
+            ""name"": ""Keyboard"",
             ""id"": ""39793069-76c0-404a-a4b5-6c3d5c0034ec"",
             ""actions"": [
                 {
@@ -52,7 +52,7 @@ public partial class @GameInput : IInputActionCollection2, IDisposable
                     ""id"": ""b8113f03-f0de-4525-b14c-91363eb360c8"",
                     ""path"": ""Dpad"",
                     ""interactions"": """",
-                    ""processors"": """",
+                    ""processors"": ""InvertVector2"",
                     ""groups"": """",
                     ""action"": ""Axis"",
                     ""isComposite"": true,
@@ -184,10 +184,10 @@ public partial class @GameInput : IInputActionCollection2, IDisposable
         }
     ]
 }");
-        // Ship
-        m_Ship = asset.FindActionMap("Ship", throwIfNotFound: true);
-        m_Ship_Axis = m_Ship.FindAction("Axis", throwIfNotFound: true);
-        m_Ship_Shot = m_Ship.FindAction("Shot", throwIfNotFound: true);
+        // Keyboard
+        m_Keyboard = asset.FindActionMap("Keyboard", throwIfNotFound: true);
+        m_Keyboard_Axis = m_Keyboard.FindAction("Axis", throwIfNotFound: true);
+        m_Keyboard_Shot = m_Keyboard.FindAction("Shot", throwIfNotFound: true);
     }
 
     public void Dispose()
@@ -244,34 +244,34 @@ public partial class @GameInput : IInputActionCollection2, IDisposable
         return asset.FindBinding(bindingMask, out action);
     }
 
-    // Ship
-    private readonly InputActionMap m_Ship;
-    private IShipActions m_ShipActionsCallbackInterface;
-    private readonly InputAction m_Ship_Axis;
-    private readonly InputAction m_Ship_Shot;
-    public struct ShipActions
+    // Keyboard
+    private readonly InputActionMap m_Keyboard;
+    private IKeyboardActions m_KeyboardActionsCallbackInterface;
+    private readonly InputAction m_Keyboard_Axis;
+    private readonly InputAction m_Keyboard_Shot;
+    public struct KeyboardActions
     {
         private @GameInput m_Wrapper;
-        public ShipActions(@GameInput wrapper) { m_Wrapper = wrapper; }
-        public InputAction @Axis => m_Wrapper.m_Ship_Axis;
-        public InputAction @Shot => m_Wrapper.m_Ship_Shot;
-        public InputActionMap Get() { return m_Wrapper.m_Ship; }
+        public KeyboardActions(@GameInput wrapper) { m_Wrapper = wrapper; }
+        public InputAction @Axis => m_Wrapper.m_Keyboard_Axis;
+        public InputAction @Shot => m_Wrapper.m_Keyboard_Shot;
+        public InputActionMap Get() { return m_Wrapper.m_Keyboard; }
         public void Enable() { Get().Enable(); }
         public void Disable() { Get().Disable(); }
         public bool enabled => Get().enabled;
-        public static implicit operator InputActionMap(ShipActions set) { return set.Get(); }
-        public void SetCallbacks(IShipActions instance)
+        public static implicit operator InputActionMap(KeyboardActions set) { return set.Get(); }
+        public void SetCallbacks(IKeyboardActions instance)
         {
-            if (m_Wrapper.m_ShipActionsCallbackInterface != null)
+            if (m_Wrapper.m_KeyboardActionsCallbackInterface != null)
             {
-                @Axis.started -= m_Wrapper.m_ShipActionsCallbackInterface.OnAxis;
-                @Axis.performed -= m_Wrapper.m_ShipActionsCallbackInterface.OnAxis;
-                @Axis.canceled -= m_Wrapper.m_ShipActionsCallbackInterface.OnAxis;
-                @Shot.started -= m_Wrapper.m_ShipActionsCallbackInterface.OnShot;
-                @Shot.performed -= m_Wrapper.m_ShipActionsCallbackInterface.OnShot;
-                @Shot.canceled -= m_Wrapper.m_ShipActionsCallbackInterface.OnShot;
+                @Axis.started -= m_Wrapper.m_KeyboardActionsCallbackInterface.OnAxis;
+                @Axis.performed -= m_Wrapper.m_KeyboardActionsCallbackInterface.OnAxis;
+                @Axis.canceled -= m_Wrapper.m_KeyboardActionsCallbackInterface.OnAxis;
+                @Shot.started -= m_Wrapper.m_KeyboardActionsCallbackInterface.OnShot;
+                @Shot.performed -= m_Wrapper.m_KeyboardActionsCallbackInterface.OnShot;
+                @Shot.canceled -= m_Wrapper.m_KeyboardActionsCallbackInterface.OnShot;
             }
-            m_Wrapper.m_ShipActionsCallbackInterface = instance;
+            m_Wrapper.m_KeyboardActionsCallbackInterface = instance;
             if (instance != null)
             {
                 @Axis.started += instance.OnAxis;
@@ -283,7 +283,7 @@ public partial class @GameInput : IInputActionCollection2, IDisposable
             }
         }
     }
-    public ShipActions @Ship => new ShipActions(this);
+    public KeyboardActions @Keyboard => new KeyboardActions(this);
     private int m_GameSchemeIndex = -1;
     public InputControlScheme GameScheme
     {
@@ -293,7 +293,7 @@ public partial class @GameInput : IInputActionCollection2, IDisposable
             return asset.controlSchemes[m_GameSchemeIndex];
         }
     }
-    public interface IShipActions
+    public interface IKeyboardActions
     {
         void OnAxis(InputAction.CallbackContext context);
         void OnShot(InputAction.CallbackContext context);

@@ -2,7 +2,7 @@
     "name": "GameInput",
     "maps": [
         {
-            "name": "Ship",
+            "name": "Keyboard",
             "id": "39793069-76c0-404a-a4b5-6c3d5c0034ec",
             "actions": [
                 {
@@ -30,7 +30,7 @@
                     "id": "b8113f03-f0de-4525-b14c-91363eb360c8",
                     "path": "Dpad",
                     "interactions": "",
-                    "processors": "",
+                    "processors": "InvertVector2",
                     "groups": "",
                     "action": "Axis",
                     "isComposite": true,

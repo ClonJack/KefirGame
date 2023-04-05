@@ -16,6 +16,7 @@ namespace ECS.Systems
         private readonly EcsPoolInject<AbilityData> _abilityDataPool = default;
         private readonly EcsPoolInject<AttackAction> _attackActionPool = default;
         private readonly EcsPoolInject<Player> _playerPool = default;
+        private readonly EcsPoolInject<AmmoLifeTimeData> _ammoPool = default;
 
         private readonly EcsPoolInject<ComponentRef<Transform>> _pointRefPool = default;
 
@@ -34,6 +35,10 @@ namespace ECS.Systems
                 var bullet = _servicesRefPool.Value.BallPool.GetPool().Get();
                 bullet.transform.position = pointRef.Component.position;
                 bullet.AddRelativeForce(pointRef.Component.up * (abilityData.Speed * Time.fixedDeltaTime));
+                
+                ref var ammoData = ref _ammoPool.Value.Add(systems.GetWorld().NewEntity());
+                ammoData.Ammo = bullet;
+                ammoData.Timer = 2;
             }
         }
     }

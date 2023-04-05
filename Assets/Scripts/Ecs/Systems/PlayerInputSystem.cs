@@ -11,7 +11,7 @@ namespace ECS.Systems
         private readonly EcsFilterInject<Inc<Player, DirectionData>> _filterOnMove = default;
         private readonly EcsFilterInject<Inc<Player, AbilityData>> _filterOnShot = default;
 
-        private readonly EcsCustomInject<ServiceInput> _inputServicePool = default;
+        private readonly EcsCustomInject<IInputService> _inputServicePool = default;
         private readonly EcsPoolInject<DirectionData> _directionDataPool = default;
         private readonly EcsPoolInject<AttackAction> _attackActionPool = default;
         
@@ -33,14 +33,14 @@ namespace ECS.Systems
             foreach (var entity in _filterOnMove.Value)
             {
                 ref var directionData = ref _directionDataPool.Value.Get(entity);
-                directionData.Direction = directionData.Forward * -axis.y;
-                directionData.Rotation = Vector3.forward * -axis.x;
+                directionData.Direction = directionData.Forward * axis.y;
+                directionData.Rotation = Vector3.forward * axis.x;
             }
         }
         public void Run(IEcsSystems systems)
         {
-            OnAxis(_inputServicePool.Value.KeyboardInput.Axis.Value);
-            OnShot(_inputServicePool.Value.KeyboardInput.Shot.IsHold);
+            OnAxis(_inputServicePool.Value.Axis);
+            OnShot(_inputServicePool.Value.IsShot);
         }
     }
 }
