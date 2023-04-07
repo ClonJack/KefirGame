@@ -318,6 +318,37 @@ Transform:
   m_Father: {fileID: 396531117}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &605533669
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 605533670}
+  m_Layer: 0
+  m_Name: Ammo
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &605533670
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 605533669}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 1940700286}
+  m_RootOrder: -1
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &928405095
 GameObject:
   m_ObjectHideFlags: 0
@@ -507,7 +538,7 @@ GameObject:
   - component: {fileID: 1940700286}
   - component: {fileID: 1940700285}
   m_Layer: 0
-  m_Name: SceneContext
+  m_Name: Pool
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -525,10 +556,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e223bd9189dd4f64bd6f061759978a94, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _lazerPool:
-    _instance: {fileID: 8676160928973230660, guid: 0e1cb9dce189a214e81002f458dd018e, type: 3}
-  _ballPool:
-    _instance: {fileID: 519348458388288315, guid: 13bdb2336b13b9045a360a6d1274a260, type: 3}
+  _ammoViewPool:
+    _parent: {fileID: 605533670}
+    _instance: {fileID: 8274364620676270879, guid: 13bdb2336b13b9045a360a6d1274a260, type: 3}
 --- !u!4 &1940700286
 Transform:
   m_ObjectHideFlags: 0
@@ -540,7 +570,8 @@ Transform:
   m_LocalPosition: {x: 0.05258582, y: 0.4658596, z: 0.036899365}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
-  m_Children: []
+  m_Children:
+  - {fileID: 605533670}
   m_Father: {fileID: 0}
   m_RootOrder: 3
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -569,7 +600,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2098360127}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0.33, y: 1.23, z: 0}
+  m_LocalPosition: {x: 0.1, y: 1.16, z: 0}
   m_LocalScale: {x: 2, y: 2, z: 2}
   m_ConstrainProportionsScale: 0
   m_Children: []

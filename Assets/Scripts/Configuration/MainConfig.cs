@@ -6,6 +6,8 @@ namespace Asteroids.Configuration
     public class MainConfig : ScriptableObject
     {
         [SerializeField] private PlayerConfig _playerConfig;
+        [SerializeField] private WeaponConfig _weaponConfig;
         public PlayerConfig PlayerConfig => _playerConfig;
+        public WeaponConfig WeaponConfig => _weaponConfig;
     }
 }

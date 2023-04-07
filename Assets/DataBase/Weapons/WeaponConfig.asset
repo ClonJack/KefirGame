@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: WeaponConfig
   m_EditorClassIdentifier: 
   _weaponModels:
-  - _weapon: {fileID: 519348458388288293, guid: 13bdb2336b13b9045a360a6d1274a260, type: 3}
+  - _weapon: {fileID: 21300000, guid: fdbb98758a20ad844ab8b060f20d8244, type: 3}
     _ability: {fileID: 11400000, guid: 78b7c81dd1b6c6947b799909d3e09df5, type: 2}
-  - _weapon: {fileID: 8676160928973230666, guid: 0e1cb9dce189a214e81002f458dd018e, type: 3}
+  - _weapon: {fileID: 21300000, guid: 78f02d1cbc537d4488578b7b68f34f68, type: 3}
     _ability: {fileID: 11400000, guid: f0eee5dea68bc7a429e1dad1dcc34685, type: 2}

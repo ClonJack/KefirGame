@@ -21,10 +21,7 @@ namespace ECS.Systems
                 coolDownData.Timer -= Time.deltaTime;
                 if (coolDownData.Timer <= 0)
                 {
-                    _servicesRefPool.Value.BallPool.GetPool().Release(coolDownData.Ammo);
-                    
-                    coolDownData.Ammo.transform.position = Vector3.zero;
-                    coolDownData.Ammo.transform.rotation  = Quaternion.identity;
+                    _servicesRefPool.Value.AmmoViewPool.GetPool().Release(coolDownData.Ammo);
                     
                     _coolDownDataPool.Value.Del(entity);
                 }

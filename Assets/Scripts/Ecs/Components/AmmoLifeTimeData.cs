@@ -1,4 +1,4 @@
-using UnityEngine;
+using Asteroids.ECS.Views.Classes.Ammo;
 
 namespace Asteroids.Components
 {
@@ -6,6 +6,6 @@ namespace Asteroids.Components
     {
         public float CoolDown;
         public float Timer;
-        public Rigidbody2D Ammo;
+        public AmmoView Ammo;
     }
 }

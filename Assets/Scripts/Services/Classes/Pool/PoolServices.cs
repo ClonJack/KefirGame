@@ -1,13 +1,11 @@
+using Asteroids.ECS.Views.Classes.Ammo;
 using UnityEngine;
 
 namespace Asteroids.Services
 {
     public class PoolServices : MonoBehaviour
     {
-        [SerializeField] private Pool<Rigidbody2D> _lazerPool = default;
-        [SerializeField] private Pool<Rigidbody2D> _ballPool = default;
-        public Pool<Rigidbody2D> LazerPool => _lazerPool;
-        public Pool<Rigidbody2D> BallPool => _ballPool;
-        
+        [SerializeField] private Pool<AmmoView> _ammoViewPool;
+        public Pool<AmmoView> AmmoViewPool => _ammoViewPool;
     }
 }

@@ -8,7 +8,8 @@ namespace ECS.Systems
 {
     public class AttackSystem : IEcsRunSystem
     {
-        private readonly EcsFilterInject<Inc<AbilityData, AttackAction, Player, ShotData, ComponentRef<Transform>>>
+        private readonly EcsFilterInject<
+                Inc<AbilityData, AttackAction, Player, ShotData, AmmoSpriteRef, ComponentRef<Transform>>>
             _filter =
                 default;
 
@@ -19,10 +20,11 @@ namespace ECS.Systems
         private readonly EcsPoolInject<AmmoLifeTimeData> _ammoPool = default;
 
         private readonly EcsPoolInject<ComponentRef<Transform>> _pointRefPool = default;
+        private readonly EcsPoolInject<AmmoSpriteRef> _ammoSpriteRefPool = default;
 
         private readonly EcsCustomInject<PoolServices> _servicesRefPool = default;
 
-        public void Run(IEcsSystems systems)
+        public  void Run(IEcsSystems systems)
         {
             foreach (var entity in _filter.Value)
             {
@@ -31,14 +33,19 @@ namespace ECS.Systems
                 ref var playerData = ref _playerPool.Value.Get(entity);
                 ref var pointRef = ref _pointRefPool.Value.Get(entity);
                 ref var shotData = ref _shotDataPool.Value.Get(entity);
+                ref var ammoSpriteRef = ref _ammoSpriteRefPool.Value.Get(entity);
 
-                var bullet = _servicesRefPool.Value.BallPool.GetPool().Get();
+                var bullet = _servicesRefPool.Value.AmmoViewPool.GetPool().Get();
+                bullet.SetIcon(ammoSpriteRef.Sprite);
+
                 bullet.transform.position = pointRef.Component.position;
-                bullet.AddRelativeForce(pointRef.Component.up * (abilityData.Speed * Time.fixedDeltaTime));
+                bullet.transform.rotation = pointRef.Component.rotation;
+
+                bullet.Rigidbody.AddForce(pointRef.Component.up * (abilityData.Speed * Time.fixedDeltaTime));
                 
                 ref var ammoData = ref _ammoPool.Value.Add(systems.GetWorld().NewEntity());
                 ammoData.Ammo = bullet;
-                ammoData.Timer = 2;
+                ammoData.Timer = abilityData.Timer;
             }
         }
     }

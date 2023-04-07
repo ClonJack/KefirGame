@@ -7,5 +7,6 @@ namespace Asteroids.Configuration
     public class WeaponConfig : ScriptableObject
     {
         [SerializeField] private List<WeaponModel> _weaponModels;
+        public List<WeaponModel> WeaponModels => _weaponModels;
     }
 }

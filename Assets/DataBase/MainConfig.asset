@@ -13,3 +13,4 @@ MonoBehaviour:
   m_Name: MainConfig
   m_EditorClassIdentifier: 
   _playerConfig: {fileID: 11400000, guid: 27d8c2fa65e5af2439a030b816ef76ef, type: 2}
+  _weaponConfig: {fileID: 11400000, guid: d104964ae57bee44389fb4901db5968f, type: 2}
