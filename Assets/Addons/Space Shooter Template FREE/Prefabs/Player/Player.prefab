@@ -9744,7 +9744,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 6571254548552229032}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -0.32, y: 0.916, z: 0}
+  m_LocalPosition: {x: -0.32, y: 0.3, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -14614,9 +14614,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6d3b996f623742cfacf1f049c5a3f4fa, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _weaponModel:
-    _weapon: {fileID: 21300000, guid: 78f02d1cbc537d4488578b7b68f34f68, type: 3}
-    _ability: {fileID: 11400000, guid: 78b7c81dd1b6c6947b799909d3e09df5, type: 2}
+  _weaponConfig: {fileID: 11400000, guid: d104964ae57bee44389fb4901db5968f, type: 2}
 --- !u!1 &6571860479149964344
 GameObject:
   m_ObjectHideFlags: 0
@@ -14644,7 +14642,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 6571860479149964344}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0.32, y: 1.013, z: 0}
+  m_LocalPosition: {x: 0.32, y: 0.3, z: 0}
   m_LocalScale: {x: 1, y: 1.0000005, z: 1.0000005}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -19514,6 +19512,4 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6d3b996f623742cfacf1f049c5a3f4fa, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _weaponModel:
-    _weapon: {fileID: 21300000, guid: 78f02d1cbc537d4488578b7b68f34f68, type: 3}
-    _ability: {fileID: 11400000, guid: f0eee5dea68bc7a429e1dad1dcc34685, type: 2}
+  _weaponConfig: {fileID: 11400000, guid: d104964ae57bee44389fb4901db5968f, type: 2}

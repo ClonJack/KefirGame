@@ -45,7 +45,7 @@ namespace ECS.Systems
                 
                 ref var ammoData = ref _ammoPool.Value.Add(systems.GetWorld().NewEntity());
                 ammoData.Ammo = bullet;
-                ammoData.Timer = abilityData.Timer;
+                ammoData.Timer = abilityData.AmmoLifeTime;
             }
         }
     }

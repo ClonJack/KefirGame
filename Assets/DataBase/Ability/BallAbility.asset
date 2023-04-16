@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ef50cd7f4cc14d048d97b65beab74544, type: 3}
   m_Name: BallAbility
   m_EditorClassIdentifier: 
-  _prefabAmmo: {fileID: 0}
   _coolDown: 1
   _speed: 1000
   _damage: 50
+  _lifeTime: 10

@@ -1,3 +1,5 @@
+using UnityEngine;
+
 namespace InputControl
 {
     public class InputService : IInputService
@@ -18,6 +20,8 @@ namespace InputControl
         {
             Axis = _inputGameControl.KeyboardInput.Axis.Value;
             IsShot = _inputGameControl.KeyboardInput.Shot.IsHold;
+            IsChangeWeapon = _inputGameControl.KeyboardInput.ChangeWeapon.IsPressed;
+            
         }
     }
 }

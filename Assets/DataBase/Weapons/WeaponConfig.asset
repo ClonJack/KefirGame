@@ -17,3 +17,4 @@ MonoBehaviour:
     _ability: {fileID: 11400000, guid: 78b7c81dd1b6c6947b799909d3e09df5, type: 2}
   - _weapon: {fileID: 21300000, guid: 78f02d1cbc537d4488578b7b68f34f68, type: 3}
     _ability: {fileID: 11400000, guid: f0eee5dea68bc7a429e1dad1dcc34685, type: 2}
+  _currentIndex: 0

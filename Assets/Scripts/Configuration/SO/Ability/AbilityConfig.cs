@@ -9,6 +9,7 @@ namespace Configuration
         [SerializeField] private float _coolDown;
         [SerializeField] private int _speed;
         [SerializeField] private int _damage;
-        public AbilityData Convert() => new(_coolDown, _speed, _damage, 0);
+        [SerializeField] private int _lifeTime;
+        public AbilityData Convert() => new(_coolDown, _speed, _damage, 0, _lifeTime);
     }
 }

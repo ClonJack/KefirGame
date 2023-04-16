@@ -23,7 +23,8 @@ namespace InputControl
             _keyboardInput = new KeyboardInput()
             {
                 Axis = new InputAxisModel(_gameInput.Keyboard.Axis),
-                Shot = new InputKeyAndReleaseModel(_gameInput.Keyboard.Shot)
+                Shot = new InputKeyAndReleaseModel(_gameInput.Keyboard.Shot),
+                ChangeWeapon = new InputKeyAndReleaseModel(_gameInput.Keyboard.ChangeWeapon)
             };
 
             _mouseInput = new MouseInput()

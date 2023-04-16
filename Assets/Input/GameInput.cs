@@ -44,6 +44,15 @@ public partial class @GameInput : IInputActionCollection2, IDisposable
                     ""processors"": """",
                     ""interactions"": """",
                     ""initialStateCheck"": true
+                },
+                {
+                    ""name"": ""ChangeWeapon"",
+                    ""type"": ""Button"",
+                    ""id"": ""03534ded-51e5-495d-8994-660e6daab55d"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": true
                 }
             ],
             ""bindings"": [
@@ -156,6 +165,17 @@ public partial class @GameInput : IInputActionCollection2, IDisposable
                     ""action"": ""Shot"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""94ef313a-7304-4c93-9561-4cd3fbb9c7e1"",
+                    ""path"": ""<Keyboard>/f"",
+                    ""interactions"": ""Press(behavior=2)"",
+                    ""processors"": """",
+                    ""groups"": ""Game"",
+                    ""action"": ""ChangeWeapon"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
                 }
             ]
         }
@@ -188,6 +208,7 @@ public partial class @GameInput : IInputActionCollection2, IDisposable
         m_Keyboard = asset.FindActionMap("Keyboard", throwIfNotFound: true);
         m_Keyboard_Axis = m_Keyboard.FindAction("Axis", throwIfNotFound: true);
         m_Keyboard_Shot = m_Keyboard.FindAction("Shot", throwIfNotFound: true);
+        m_Keyboard_ChangeWeapon = m_Keyboard.FindAction("ChangeWeapon", throwIfNotFound: true);
     }
 
     public void Dispose()
@@ -249,12 +270,14 @@ public partial class @GameInput : IInputActionCollection2, IDisposable
     private IKeyboardActions m_KeyboardActionsCallbackInterface;
     private readonly InputAction m_Keyboard_Axis;
     private readonly InputAction m_Keyboard_Shot;
+    private readonly InputAction m_Keyboard_ChangeWeapon;
     public struct KeyboardActions
     {
         private @GameInput m_Wrapper;
         public KeyboardActions(@GameInput wrapper) { m_Wrapper = wrapper; }
         public InputAction @Axis => m_Wrapper.m_Keyboard_Axis;
         public InputAction @Shot => m_Wrapper.m_Keyboard_Shot;
+        public InputAction @ChangeWeapon => m_Wrapper.m_Keyboard_ChangeWeapon;
         public InputActionMap Get() { return m_Wrapper.m_Keyboard; }
         public void Enable() { Get().Enable(); }
         public void Disable() { Get().Disable(); }
@@ -270,6 +293,9 @@ public partial class @GameInput : IInputActionCollection2, IDisposable
                 @Shot.started -= m_Wrapper.m_KeyboardActionsCallbackInterface.OnShot;
                 @Shot.performed -= m_Wrapper.m_KeyboardActionsCallbackInterface.OnShot;
                 @Shot.canceled -= m_Wrapper.m_KeyboardActionsCallbackInterface.OnShot;
+                @ChangeWeapon.started -= m_Wrapper.m_KeyboardActionsCallbackInterface.OnChangeWeapon;
+                @ChangeWeapon.performed -= m_Wrapper.m_KeyboardActionsCallbackInterface.OnChangeWeapon;
+                @ChangeWeapon.canceled -= m_Wrapper.m_KeyboardActionsCallbackInterface.OnChangeWeapon;
             }
             m_Wrapper.m_KeyboardActionsCallbackInterface = instance;
             if (instance != null)
@@ -280,6 +306,9 @@ public partial class @GameInput : IInputActionCollection2, IDisposable
                 @Shot.started += instance.OnShot;
                 @Shot.performed += instance.OnShot;
                 @Shot.canceled += instance.OnShot;
+                @ChangeWeapon.started += instance.OnChangeWeapon;
+                @ChangeWeapon.performed += instance.OnChangeWeapon;
+                @ChangeWeapon.canceled += instance.OnChangeWeapon;
             }
         }
     }
@@ -297,5 +326,6 @@ public partial class @GameInput : IInputActionCollection2, IDisposable
     {
         void OnAxis(InputAction.CallbackContext context);
         void OnShot(InputAction.CallbackContext context);
+        void OnChangeWeapon(InputAction.CallbackContext context);
     }
 }
