@@ -61,7 +61,7 @@ public partial class @GameInput : IInputActionCollection2, IDisposable
                     ""id"": ""b8113f03-f0de-4525-b14c-91363eb360c8"",
                     ""path"": ""Dpad"",
                     ""interactions"": """",
-                    ""processors"": ""InvertVector2"",
+                    ""processors"": ""InvertVector2(invertY=false)"",
                     ""groups"": """",
                     ""action"": ""Axis"",
                     ""isComposite"": true,

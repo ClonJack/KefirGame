@@ -26,7 +26,7 @@ namespace Asteroids.ECS
         {
             _inputGameControl = new InputGameControl();
             _inputGameControl.Init();
-            
+
             _inputService = new InputService(_inputGameControl);
         }
 
@@ -51,10 +51,10 @@ namespace Asteroids.ECS
 
             _systemsFixedUpdate
                 .Add(new PlayerInitSystem())
+                .Add(new SceneInitSystem())
                 .Add(new MovementSystem())
                 .Add(new BoundsCameraSystem())
                 .Add(new AttackSystem())
-                .Add(new SceneInitSystem())
                 .DelHere<ShotData>()
                 .Inject(_mainConfig)
                 .Inject(_poolServices)
@@ -76,7 +76,7 @@ namespace Asteroids.ECS
         {
             _inputGameControl.Enable();
         }
-        
+
         private void OnDestroy()
         {
             _inputGameControl.Disable();

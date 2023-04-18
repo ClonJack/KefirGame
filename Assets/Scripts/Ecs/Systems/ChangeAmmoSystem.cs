@@ -1,4 +1,6 @@
 using Asteroids.Components;
+using Asteroids.Configuration;
+using Configuration;
 using Leopotam.EcsLite;
 using Leopotam.EcsLite.Di;
 
@@ -6,13 +8,13 @@ namespace ECS.Systems
 {
     public class ChangeAmmoSystem : IEcsRunSystem
     {
-        private readonly EcsFilterInject<Inc<AmmoAction, AbilityData, AmmoSpriteRef, Player, ConfigWeaponRef>> _filter =
-            default;
+        private readonly EcsFilterInject<Inc<AmmoAction>> _filter = default;
 
         private readonly EcsPoolInject<AmmoSpriteRef> _ammoSpriteRefPool = default;
         private readonly EcsPoolInject<AbilityData> _abilityDataPool = default;
-        private readonly EcsPoolInject<ConfigWeaponRef> _configWeaponRefPool = default;
+        private readonly EcsPoolInject<IndexAmmoData> _indexAmmoDataPool = default;
 
+        private readonly EcsCustomInject<MainConfig> _mainConfig = default;
 
         public void Run(IEcsSystems systems)
         {
@@ -20,13 +22,18 @@ namespace ECS.Systems
             {
                 ref var ability = ref _abilityDataPool.Value.Get(entity);
                 ref var ammoSpite = ref _ammoSpriteRefPool.Value.Get(entity);
-                ref var configWeapon = ref _configWeaponRefPool.Value.Get(entity);
+                ref var indexAmmo = ref _indexAmmoDataPool.Value.Get(entity);
 
-                configWeapon.WeaponConfig.NexWeapon();
+                indexAmmo.Index++;
+                if (indexAmmo.Index > _mainConfig.Value.WeaponConfig.WeaponModels.Count - 1)
+                {
+                    indexAmmo.Index = 0;
+                }
 
-                ability = configWeapon.WeaponConfig.CurrentModel.Ability.Convert();
-                ability.Timer = ability.CoolDown;
-                ammoSpite.Sprite = configWeapon.WeaponConfig.CurrentModel.Weapon;
+                var currentModel = _mainConfig.Value.WeaponConfig.WeaponModels[indexAmmo.Index];
+                
+                ability = currentModel.Ability.Convert();
+                ammoSpite.Sprite = currentModel.Weapon;
             }
         }
     }

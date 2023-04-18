@@ -7,16 +7,7 @@ namespace Asteroids.Configuration
     public class WeaponConfig : ScriptableObject
     {
         [SerializeField] private List<WeaponModel> _weaponModels;
-        [SerializeField] private int _currentIndex;
-        public WeaponModel CurrentModel => _weaponModels[_currentIndex];
-
-        public void NexWeapon()
-        {
-            _currentIndex++;
-            if (_currentIndex > _weaponModels.Count - 1)
-            {
-                _currentIndex = 0;
-            }
-        }
+        public List<WeaponModel> WeaponModels => _weaponModels;
+        
     }
 }

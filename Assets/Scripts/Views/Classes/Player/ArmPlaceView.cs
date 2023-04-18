@@ -1,34 +1,40 @@
 using System.Collections.Generic;
 using Asteroids.Components;
 using Asteroids.Configuration;
+using Configuration;
 using Leopotam.EcsLite;
 using UnityEngine;
 
 namespace Asteroids.Views
 {
-    public class ArmPlaceView : MonoBehaviour, IConverter
+    public class ArmPlaceView : MonoBehaviour, IConverter, IBinding<List<EcsPackedEntity>>
     {
         [SerializeField] private WeaponConfig _weaponConfig;
 
-        public void Convert(EcsWorld ecsWorld, Dictionary<GameObject, int> entities)
+        private List<EcsPackedEntity> _packedEntities;
+
+        public void Convert(EcsWorld ecsWorld)
         {
             var entity = ecsWorld.NewEntity();
 
             ref var ability = ref ecsWorld.GetPool<AbilityData>().Add(entity);
-            ability = _weaponConfig.CurrentModel.Ability.Convert();
+            ability = _weaponConfig.WeaponModels[0].Ability.Convert();
+
+            ref var indexAmmo = ref ecsWorld.GetPool<IndexAmmoData>().Add(entity);
+            indexAmmo.Index = 0;
 
             ref var spriteRef = ref ecsWorld.GetPool<AmmoSpriteRef>().Add(entity);
-            spriteRef.Sprite = _weaponConfig.CurrentModel.Weapon;
+            spriteRef.Sprite = _weaponConfig.WeaponModels[0].Weapon;
 
             ref var componentRef = ref ecsWorld.GetPool<ComponentRef<Transform>>().Add(entity);
             componentRef.Component = transform;
 
-            ref var player = ref ecsWorld.GetPool<Player>().Add(entity);
+            _packedEntities.Add(ecsWorld.PackEntity(entity));
+        }
 
-            ref var configWeapon = ref ecsWorld.GetPool<ConfigWeaponRef>().Add(entity);
-            configWeapon.WeaponConfig = Instantiate(_weaponConfig);
-
-            entities.Add(gameObject, entity);
+        public void Bind(EcsWorld ecsWorld, List<EcsPackedEntity> param)
+        {
+            _packedEntities = param;
         }
     }
 }

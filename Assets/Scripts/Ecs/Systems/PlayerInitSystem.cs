@@ -1,5 +1,7 @@
-﻿using Asteroids.Components;
+﻿using System.Collections.Generic;
+using Asteroids.Components;
 using Asteroids.Configuration;
+using Asteroids.Views;
 using Leopotam.EcsLite;
 using Leopotam.EcsLite.Di;
 using UnityEngine;
@@ -16,6 +18,7 @@ namespace ECS.Systems
 
         private readonly EcsPoolInject<MovementData> _movementDataPool = default;
         private readonly EcsPoolInject<DirectionData> _directionDataPool = default;
+        private readonly EcsPoolInject<WeaponData> _weaponDataPool = default;
 
         private readonly EcsPoolInject<ComponentRef<Rigidbody2D>> _rigiBodyRefPool = default;
         private readonly EcsPoolInject<ComponentRef<Transform>> _transformRefPool = default;
@@ -27,6 +30,7 @@ namespace ECS.Systems
 
             _playerDataPool.Value.Add(entity);
             _unitDataPool.Value.Add(entity);
+            _directionDataPool.Value.Add(entity);
 
             var player = Object.Instantiate(_mainConfig.Value.PlayerConfig.Prefab);
 
@@ -34,15 +38,20 @@ namespace ECS.Systems
             movementData.MoveSpeed = _mainConfig.Value.PlayerConfig.MoveSpeed;
             movementData.RotationSpeed = _mainConfig.Value.PlayerConfig.RotationSpeed;
 
-            ref var directionData = ref _directionDataPool.Value.Add(entity);
-            directionData.Forward = player.transform.up;
-
             ref var rigiBodyRef = ref _rigiBodyRefPool.Value.Add(entity);
             rigiBodyRef.Component = player.GetComponent<Rigidbody2D>();
 
             ref var transformRef = ref _transformRefPool.Value.Add(entity);
             transformRef.Component = player.transform;
+
+            ref var weaponData = ref _weaponDataPool.Value.Add(entity);
+            weaponData.EcsPackedEntities = new List<EcsPackedEntity>();
             
+            var bindings = player.GetComponentsInChildren<IBinding<List<EcsPackedEntity>>>();
+            foreach (var binding in bindings)
+            {
+                binding.Bind(_ecsWorld.Value,weaponData.EcsPackedEntities);
+            }
         }
     }
 }

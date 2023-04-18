@@ -8,7 +8,7 @@ namespace ECS.Systems
     public class MovementSystem : IEcsRunSystem
     {
         private readonly EcsFilterInject<Inc<MovementData, DirectionData, ComponentRef<Rigidbody2D>>> _filter = default;
-        
+
         private readonly EcsPoolInject<MovementData> _movementDataPool = default;
         private readonly EcsPoolInject<DirectionData> _directionDataPool = default;
         private readonly EcsPoolInject<ComponentRef<Rigidbody2D>> _rigiBodyRefPool = default;
@@ -21,7 +21,8 @@ namespace ECS.Systems
                 ref var directionData = ref _directionDataPool.Value.Get(entity);
                 ref var rigidbodyRef = ref _rigiBodyRefPool.Value.Get(entity);
 
-                var targetRotate = directionData.Rotation * (movementData.RotationSpeed * Time.fixedDeltaTime);
+                var targetRotate = Vector3.forward *
+                                   (directionData.Direction.x * (movementData.RotationSpeed * Time.fixedDeltaTime));
                 var quaternion = Quaternion.Euler(targetRotate.x, targetRotate.y, targetRotate.z);
                 var localRotate = rigidbodyRef.Component.transform.localRotation;
                 rigidbodyRef.Component.MoveRotation(localRotate * quaternion);
