@@ -1,6 +1,6 @@
 namespace Asteroids.Components
 {
-    public struct AttackProcessAction
+    public struct ChangeAction
     {
         
     }

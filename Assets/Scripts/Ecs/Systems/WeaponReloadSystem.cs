@@ -1,20 +1,19 @@
 using Asteroids.Components;
 using Asteroids.Configuration;
-using Asteroids.ECS.Ecs.Extension;
 using Leopotam.EcsLite;
 using Leopotam.EcsLite.Di;
 using UnityEngine;
 
 namespace ECS.Systems
 {
-    public class AttackProcessSystem : IEcsRunSystem
+    public class WeaponReloadSystem : IEcsRunSystem
     {
         private readonly EcsFilterInject<Inc<AbilityData>> _filter = default;
 
         private readonly EcsPoolInject<ShotData> _shotDataPool = default;
         private readonly EcsPoolInject<TimerData> _timerDataPool = default;
         private readonly EcsPoolInject<IndexAmmoData> _indexAmmoPool = default;
-        private readonly EcsPoolInject<AttackProcessAction> _attackProcessPool = default;
+        private readonly EcsPoolInject<ReloadAction> _attackProcessPool = default;
 
         private readonly EcsCustomInject<MainConfig> _mainfConfig = default;
 
@@ -24,16 +23,18 @@ namespace ECS.Systems
             {
                 if (!_attackProcessPool.Value.Has(entity))
                 {
-                    _timerDataPool.Value.Delete(entity);
+                    _timerDataPool.Value.Del(entity);
                     continue;
                 }
 
                 ref var indexAmmo = ref _indexAmmoPool.Value.Get(entity);
-
-                ref var timeData = ref _timerDataPool.Value.AddUnique(entity, out var isAdd);
                 
-                if (isAdd)
-                    timeData.Time = _mainfConfig.Value.WeaponConfig.WeaponModels[indexAmmo.Index].Ability.CoolDown;
+                if (!_timerDataPool.Value.Has(entity))
+                {
+                   _timerDataPool.Value.Add(entity).Time = _mainfConfig.Value.WeaponConfig.WeaponModels[indexAmmo.Index].Ability.CoolDown;
+                }
+
+                ref var timeData = ref _timerDataPool.Value.Get(entity);
 
                 if (timeData.Time <= 0)
                 {

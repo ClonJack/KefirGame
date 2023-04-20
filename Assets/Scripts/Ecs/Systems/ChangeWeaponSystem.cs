@@ -6,9 +6,9 @@ using Leopotam.EcsLite.Di;
 
 namespace ECS.Systems
 {
-    public class ChangeAmmoSystem : IEcsRunSystem
+    public class ChangeWeaponSystem : IEcsRunSystem
     {
-        private readonly EcsFilterInject<Inc<AmmoAction>> _filter = default;
+        private readonly EcsFilterInject<Inc<ChangeAction>> _filter = default;
 
         private readonly EcsPoolInject<AmmoSpriteRef> _ammoSpriteRefPool = default;
         private readonly EcsPoolInject<AbilityData> _abilityDataPool = default;

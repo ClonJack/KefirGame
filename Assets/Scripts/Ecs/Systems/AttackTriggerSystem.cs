@@ -9,7 +9,7 @@ namespace ECS.Systems
     {
         private readonly EcsFilterInject<Inc<AttackAction>> _filter = default;
 
-        private readonly EcsPoolInject<AttackProcessAction> _attackProcessPool = default;
+        private readonly EcsPoolInject<ReloadAction> _attackProcessPool = default;
 
         private readonly EcsPoolInject<WeaponData> _weaponDataPool = default;
         
@@ -23,7 +23,7 @@ namespace ECS.Systems
                     var entityUnpackacked = ecsPackedEntity.Unpack(systems.GetWorld(), out var indexUnpacked);
                     if (!entityUnpackacked) continue;
 
-                    _attackProcessPool.Value.AddUnique(indexUnpacked);
+                    _attackProcessPool.Value.Add(indexUnpacked);
                 }
             }
         }

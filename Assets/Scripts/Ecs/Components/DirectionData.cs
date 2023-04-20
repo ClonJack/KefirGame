@@ -4,6 +4,6 @@ namespace Asteroids.Components
 {
     public struct DirectionData
     {
-        public Vector3 Direction;
+        public Vector2 Direction;
     }
 }
