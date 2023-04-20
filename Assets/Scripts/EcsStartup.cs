@@ -41,14 +41,16 @@ namespace Asteroids.ECS
 
             _systemUpdate
                 .Add(new PlayerInputSystem())
-                .Add(new ChangeAmmoSystem())
                 .Add(new AttackTriggerSystem())
+                .Add(new AttackProcessSystem())
+                .Add(new ChangeAmmoSystem())
                 .Add(new AmmoLifeTimeSystem())
+                .DelHere<AttackAction>()
+                .DelHere<AttackProcessAction>()
+                .DelHere<AmmoAction>()
                 .Inject(_mainConfig)
                 .Inject(_inputService)
                 .Inject(_poolServices)
-                .DelHere<AttackAction>()
-                .DelHere<AmmoAction>()
                 .Init();
 
             _systemsFixedUpdate
