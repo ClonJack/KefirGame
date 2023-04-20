@@ -47,6 +47,8 @@ namespace Asteroids.ECS
                 .Inject(_mainConfig)
                 .Inject(_inputService)
                 .Inject(_poolServices)
+                .DelHere<AttackAction>()
+                .DelHere<AmmoAction>()
                 .Init();
 
             _systemsFixedUpdate

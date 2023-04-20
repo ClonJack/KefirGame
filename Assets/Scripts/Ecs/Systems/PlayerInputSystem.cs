@@ -6,12 +6,12 @@ using UnityEngine;
 
 namespace ECS.Systems
 {
-    public class PlayerInputSystem :  IEcsRunSystem
+    public class PlayerInputSystem : IEcsRunSystem
     {
         private readonly EcsWorldInject _ecsWorld = default;
 
         private readonly EcsFilterInject<Inc<Player>> _filter = default;
-        
+
         private readonly EcsPoolInject<DirectionData> _directionDataPool = default;
         private readonly EcsPoolInject<AttackAction> _attackActionPool = default;
         private readonly EcsPoolInject<AmmoAction> _ammoActionPool = default;
@@ -24,54 +24,41 @@ namespace ECS.Systems
             foreach (var entity in _filter.Value)
             {
                 UpdateDirection(entity);
-                UpdateAmmo(entity);
+
+                if (!_weaponDataPool.Value.Has(entity)) continue;
+
+                ChangeWeapon(entity);
+                
                 UpdateShot(entity);
             }
         }
         private void UpdateShot(int entity)
         {
-            if (!_weaponDataPool.Value.Has(entity)) return;
             ref var weaponData = ref _weaponDataPool.Value.Get(entity);
 
             foreach (var ecsPackedEntity in weaponData.EcsPackedEntities)
             {
                 var isUnPack = ecsPackedEntity.Unpack(_ecsWorld.Value, out var unpackedEntity);
 
-                if (_inputServicePool.Value.IsShot)
+                if (_inputServicePool.Value.IsShot && isUnPack && !_attackActionPool.Value.Has(unpackedEntity))
                 {
-                    if (isUnPack && !_attackActionPool.Value.Has(unpackedEntity))
-                    {
-                        _attackActionPool.Value.Add(unpackedEntity);
-                    }
-                    continue;
+                    _attackActionPool.Value.Add(unpackedEntity);
                 }
-                if (_attackActionPool.Value.Has(unpackedEntity))
-                    _attackActionPool.Value.Del(unpackedEntity);
             }
         }
-        private void UpdateAmmo(int entity)
+        private void ChangeWeapon(int entity)
         {
-            if (!_weaponDataPool.Value.Has(entity)) return;
             ref var weaponData = ref _weaponDataPool.Value.Get(entity);
 
             foreach (var ecsPackedEntity in weaponData.EcsPackedEntities)
             {
                 var isUnPack = ecsPackedEntity.Unpack(_ecsWorld.Value, out var unpackedEntity);
 
-                if (_inputServicePool.Value.IsChangeWeapon)
+                if (_inputServicePool.Value.IsChangeWeapon && isUnPack && !_ammoActionPool.Value.Has(unpackedEntity))
                 {
-                    if (isUnPack && !_ammoActionPool.Value.Has(unpackedEntity))
-                    {
-                        _ammoActionPool.Value.Add(unpackedEntity);
-                    }
-                    continue;
+                    _ammoActionPool.Value.Add(unpackedEntity);
                 }
-                if (_ammoActionPool.Value.Has(unpackedEntity))
-                    _ammoActionPool.Value.Del(unpackedEntity);
             }
-            
-            
-            
         }
         private void UpdateDirection(int entity)
         {
