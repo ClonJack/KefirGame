@@ -1,6 +1,6 @@
 using UnityEngine;
 
-namespace Asteroids.ECS.Views.Classes.Ammo
+namespace Asteroids.ECS.Views
 {
     public class AmmoView : MonoBehaviour
     {

@@ -7,7 +7,7 @@ namespace ECS.Systems
 {
     public class MovementSystem : IEcsRunSystem
     {
-        private readonly EcsFilterInject<Inc<MovementData, DirectionData, ComponentRef<Rigidbody2D>>> _filter = default;
+        private readonly EcsFilterInject<Inc<MoveAction>> _filter = default;
 
         private readonly EcsPoolInject<MovementData> _movementDataPool = default;
         private readonly EcsPoolInject<DirectionData> _directionDataPool = default;

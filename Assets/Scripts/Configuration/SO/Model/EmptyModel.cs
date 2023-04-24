@@ -4,14 +4,14 @@ using UnityEngine;
 namespace Asteroids.Configuration
 {
     [System.Serializable]
-    public class WeaponModel
+    public class EmptyModel
     {
         [Header("Prefab")]
-        [SerializeField] private Sprite _weapon;
+        [SerializeField] private Sprite _icon;
         [Header("Ability Config")]
         [SerializeField] private AbilityConfig _ability;
         
-        public Sprite Weapon => _weapon;
+        public Sprite Icon => _icon;
         public AbilityConfig Ability => _ability;
     }
 }

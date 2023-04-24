@@ -9,26 +9,27 @@ namespace Asteroids.Views
 {
     public class ArmPlaceView : MonoBehaviour, IConverter, IBinding<List<EcsPackedEntity>>
     {
-        [SerializeField] private WeaponConfig _weaponConfig;
+        private List<EcsPackedEntity> _packedEntities = default;
 
-        private List<EcsPackedEntity> _packedEntities;
-
-        public void Convert(EcsWorld ecsWorld)
+        public void Convert(IEcsSystems ecsSystems)
         {
+            var ecsWorld = ecsSystems.GetWorld();
             var entity = ecsWorld.NewEntity();
-
-            ref var ability = ref ecsWorld.GetPool<AbilityData>().Add(entity);
-            ability = _weaponConfig.WeaponModels[0].Ability.Convert();
+            
+            var weaponsConfig = ecsSystems.GetShared<MainConfig>().WeaponsConfig;
 
             ref var indexAmmo = ref ecsWorld.GetPool<IndexAmmoData>().Add(entity);
             indexAmmo.Index = 0;
+            
+            ref var ability = ref ecsWorld.GetPool<AbilityData>().Add(entity);
+            ability = weaponsConfig.Models[indexAmmo.Index].Ability.Convert();
 
             ref var spriteRef = ref ecsWorld.GetPool<AmmoSpriteRef>().Add(entity);
-            spriteRef.Sprite = _weaponConfig.WeaponModels[0].Weapon;
+            spriteRef.Sprite = weaponsConfig.Models[indexAmmo.Index].Icon;
 
             ref var componentRef = ref ecsWorld.GetPool<ComponentRef<Transform>>().Add(entity);
             componentRef.Component = transform;
-
+            
             _packedEntities.Add(ecsWorld.PackEntity(entity));
         }
 

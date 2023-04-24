@@ -4,12 +4,10 @@ namespace Asteroids.Components
     {
         public readonly float Speed;
         public readonly float Damage;
-        public readonly float AmmoLifeTime;
-        public AbilityData(float speed, float damage, float ammoLifeTime)
+        public AbilityData(float speed, float damage)
         {
             Speed = speed;
             Damage = damage;
-            AmmoLifeTime = ammoLifeTime;
         }
     }
 }

@@ -1,4 +1,5 @@
 using Asteroids.Components;
+using Asteroids.Configuration;
 using Asteroids.Services;
 using Leopotam.EcsLite;
 using Leopotam.EcsLite.Di;
@@ -11,12 +12,15 @@ namespace ECS.Systems
         private readonly EcsFilterInject<Inc<ShotData>> _filter = default;
         
         private readonly EcsPoolInject<AbilityData> _abilityDataPool = default;
+        private readonly EcsPoolInject<IndexAmmoData> _indexAmmoPool = default;
         private readonly EcsPoolInject<AmmoLifeTimeData> _ammoPool = default;
 
         private readonly EcsPoolInject<ComponentRef<Transform>> _pointRefPool = default;
         private readonly EcsPoolInject<AmmoSpriteRef> _ammoSpriteRefPool = default;
 
         private readonly EcsCustomInject<PoolServices> _servicesRefPool = default;
+        private readonly EcsCustomInject<MainConfig> _mainConfig = default;
+
 
         public void Run(IEcsSystems systems)
         {
@@ -25,6 +29,7 @@ namespace ECS.Systems
                 ref var abilityData = ref _abilityDataPool.Value.Get(entity);
                 ref var pointRef = ref _pointRefPool.Value.Get(entity);
                 ref var ammoSpriteRef = ref _ammoSpriteRefPool.Value.Get(entity);
+                ref var indexData = ref _indexAmmoPool.Value.Get(entity);
 
                 var bullet = _servicesRefPool.Value.AmmoViewPool.GetPool().Get();
                 bullet.SetIcon(ammoSpriteRef.Sprite);
@@ -36,7 +41,7 @@ namespace ECS.Systems
 
                 ref var ammoData = ref _ammoPool.Value.Add(systems.GetWorld().NewEntity());
                 ammoData.Ammo = bullet;
-                ammoData.Timer = abilityData.AmmoLifeTime;
+                ammoData.Timer = _mainConfig.Value.WeaponsConfig.Models[indexData.Index].Ability.LifeTime;
             }
         }
     }

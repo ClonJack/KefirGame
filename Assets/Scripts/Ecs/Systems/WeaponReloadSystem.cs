@@ -31,7 +31,7 @@ namespace ECS.Systems
                 
                 if (!_timerDataPool.Value.Has(entity))
                 {
-                   _timerDataPool.Value.Add(entity).Time = _mainfConfig.Value.WeaponConfig.WeaponModels[indexAmmo.Index].Ability.CoolDown;
+                   _timerDataPool.Value.Add(entity).Time = _mainfConfig.Value.WeaponsConfig.Models[indexAmmo.Index].Ability.CoolDown;
                 }
 
                 ref var timeData = ref _timerDataPool.Value.Get(entity);

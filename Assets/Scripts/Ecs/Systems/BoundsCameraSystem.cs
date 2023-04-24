@@ -7,7 +7,7 @@ namespace ECS.Systems
 {
     public class BoundsCameraSystem : IEcsInitSystem, IEcsRunSystem
     {
-        private readonly EcsFilterInject<Inc<Player, ComponentRef<Rigidbody2D>>> _filter = default;
+        private readonly EcsFilterInject<Inc<ComponentRef<Rigidbody2D>>> _filter = default;
 
         private readonly EcsPoolInject<ComponentRef<Rigidbody2D>> _rigidbodyRefPool = default;
 

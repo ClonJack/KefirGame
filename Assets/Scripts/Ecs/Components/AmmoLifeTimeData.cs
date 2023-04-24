@@ -1,4 +1,4 @@
-using Asteroids.ECS.Views.Classes.Ammo;
+using Asteroids.ECS.Views;
 
 namespace Asteroids.Components
 {

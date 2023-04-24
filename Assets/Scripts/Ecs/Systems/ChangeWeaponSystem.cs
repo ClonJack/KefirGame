@@ -32,15 +32,15 @@ namespace ECS.Systems
                         ref var indexAmmo = ref _indexAmmoDataPool.Value.Get(entityUnPack);
 
                         indexAmmo.Index++;
-                        if (indexAmmo.Index > _mainConfig.Value.WeaponConfig.WeaponModels.Count - 1)
+                        if (indexAmmo.Index > _mainConfig.Value.WeaponsConfig.Models.Count - 1)
                         {
                             indexAmmo.Index = 0;
                         }
 
-                        var currentModel = _mainConfig.Value.WeaponConfig.WeaponModels[indexAmmo.Index];
+                        var currentModel = _mainConfig.Value.WeaponsConfig.Models[indexAmmo.Index];
 
                         ability = currentModel.Ability.Convert();
-                        ammoSpite.Sprite = currentModel.Weapon;
+                        ammoSpite.Sprite = currentModel.Icon;
                     }
                 }
             }

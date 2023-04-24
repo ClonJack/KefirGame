@@ -1,7 +1,6 @@
 using System.Linq;
 using Asteroids.Views;
 using Leopotam.EcsLite;
-using Leopotam.EcsLite.Di;
 using UnityEngine;
 
 namespace ECS.Systems
@@ -16,7 +15,7 @@ namespace ECS.Systems
 
             foreach (var converter in viewConverters)
             {
-                converter.Convert(systems.GetWorld());
+                converter.Convert(systems);
             }
         }
     }

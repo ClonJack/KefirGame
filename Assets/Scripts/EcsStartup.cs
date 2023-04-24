@@ -33,8 +33,8 @@ namespace Asteroids.ECS
         private void Start()
         {
             _world = new EcsWorld();
-            _systemsFixedUpdate = new EcsSystems(_world);
-            _systemUpdate = new EcsSystems(_world);
+            _systemsFixedUpdate = new EcsSystems(_world, _mainConfig);
+            _systemUpdate = new EcsSystems(_world, _mainConfig);
 #if UNITY_EDITOR
             _systemsFixedUpdate.Add(new Leopotam.EcsLite.UnityEditor.EcsWorldDebugSystem());
 #endif
@@ -55,11 +55,14 @@ namespace Asteroids.ECS
 
             _systemsFixedUpdate
                 .Add(new PlayerInitSystem())
+                .Add(new PlanetInitSystem())
                 .Add(new SceneInitSystem())
+                .Add(new PlanetMoveSystem())
                 .Add(new MovementSystem())
                 .Add(new BoundsCameraSystem())
                 .Add(new AttackSystem())
                 .DelHere<ShotData>()
+                .DelHere<MoveAction>()
                 .Inject(_mainConfig)
                 .Inject(_poolServices)
                 .Init();
