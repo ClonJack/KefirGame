@@ -1,11 +1,11 @@
-using UnityEngine;
-
 namespace InputControl
 {
     public interface IInputService
     {
-        public Vector2 Axis { get; set; }
-        public bool IsShot { get; set; }
-        public bool IsChangeWeapon { get; set; }
+        public IAxisInputModel AxisInput { get; set; }
+        public IValueInputModel YAxis { get; set; }
+        public IValueInputModel XAxis { get; set; }
+        public IKeyInputModel Shot { get; set; }
+        public IKeyInputModel ChangeWeapon { get; set; }
     }
 }

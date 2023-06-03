@@ -53,6 +53,24 @@ public partial class @GameInput : IInputActionCollection2, IDisposable
                     ""processors"": """",
                     ""interactions"": """",
                     ""initialStateCheck"": true
+                },
+                {
+                    ""name"": ""YAxis"",
+                    ""type"": ""Value"",
+                    ""id"": ""770ba06e-598b-4a90-9f1c-8f4cdff81777"",
+                    ""expectedControlType"": ""Axis"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": true
+                },
+                {
+                    ""name"": ""XAxis"",
+                    ""type"": ""Value"",
+                    ""id"": ""bc231748-ccc8-4b25-8f52-c41f987aa6d8"",
+                    ""expectedControlType"": ""Axis"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": true
                 }
             ],
             ""bindings"": [
@@ -176,6 +194,72 @@ public partial class @GameInput : IInputActionCollection2, IDisposable
                     ""action"": ""ChangeWeapon"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": ""1D Axis"",
+                    ""id"": ""b35a9308-f20e-4fcb-995f-52aa1917d315"",
+                    ""path"": ""1DAxis"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""YAxis"",
+                    ""isComposite"": true,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": ""negative"",
+                    ""id"": ""9e86ad79-768b-4f53-a8cd-955858e6bbfc"",
+                    ""path"": ""<Keyboard>/s"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""Game"",
+                    ""action"": ""YAxis"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": true
+                },
+                {
+                    ""name"": ""positive"",
+                    ""id"": ""f7b0cbdf-4db5-4141-8e50-f982abcdb2b9"",
+                    ""path"": ""<Keyboard>/w"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""Game"",
+                    ""action"": ""YAxis"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": true
+                },
+                {
+                    ""name"": ""1D Axis"",
+                    ""id"": ""e1b9149f-b608-45bb-8b56-b8bddd0b45af"",
+                    ""path"": ""1DAxis"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""XAxis"",
+                    ""isComposite"": true,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": ""negative"",
+                    ""id"": ""9b826972-c0fc-42a3-b560-0deef34efdc6"",
+                    ""path"": ""<Keyboard>/a"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""Game"",
+                    ""action"": ""XAxis"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": true
+                },
+                {
+                    ""name"": ""positive"",
+                    ""id"": ""16321e3a-83a3-4498-8726-8010af4699de"",
+                    ""path"": ""<Keyboard>/d"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""Game"",
+                    ""action"": ""XAxis"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": true
                 }
             ]
         }
@@ -209,6 +293,8 @@ public partial class @GameInput : IInputActionCollection2, IDisposable
         m_Keyboard_Axis = m_Keyboard.FindAction("Axis", throwIfNotFound: true);
         m_Keyboard_Shot = m_Keyboard.FindAction("Shot", throwIfNotFound: true);
         m_Keyboard_ChangeWeapon = m_Keyboard.FindAction("ChangeWeapon", throwIfNotFound: true);
+        m_Keyboard_YAxis = m_Keyboard.FindAction("YAxis", throwIfNotFound: true);
+        m_Keyboard_XAxis = m_Keyboard.FindAction("XAxis", throwIfNotFound: true);
     }
 
     public void Dispose()
@@ -271,6 +357,8 @@ public partial class @GameInput : IInputActionCollection2, IDisposable
     private readonly InputAction m_Keyboard_Axis;
     private readonly InputAction m_Keyboard_Shot;
     private readonly InputAction m_Keyboard_ChangeWeapon;
+    private readonly InputAction m_Keyboard_YAxis;
+    private readonly InputAction m_Keyboard_XAxis;
     public struct KeyboardActions
     {
         private @GameInput m_Wrapper;
@@ -278,6 +366,8 @@ public partial class @GameInput : IInputActionCollection2, IDisposable
         public InputAction @Axis => m_Wrapper.m_Keyboard_Axis;
         public InputAction @Shot => m_Wrapper.m_Keyboard_Shot;
         public InputAction @ChangeWeapon => m_Wrapper.m_Keyboard_ChangeWeapon;
+        public InputAction @YAxis => m_Wrapper.m_Keyboard_YAxis;
+        public InputAction @XAxis => m_Wrapper.m_Keyboard_XAxis;
         public InputActionMap Get() { return m_Wrapper.m_Keyboard; }
         public void Enable() { Get().Enable(); }
         public void Disable() { Get().Disable(); }
@@ -296,6 +386,12 @@ public partial class @GameInput : IInputActionCollection2, IDisposable
                 @ChangeWeapon.started -= m_Wrapper.m_KeyboardActionsCallbackInterface.OnChangeWeapon;
                 @ChangeWeapon.performed -= m_Wrapper.m_KeyboardActionsCallbackInterface.OnChangeWeapon;
                 @ChangeWeapon.canceled -= m_Wrapper.m_KeyboardActionsCallbackInterface.OnChangeWeapon;
+                @YAxis.started -= m_Wrapper.m_KeyboardActionsCallbackInterface.OnYAxis;
+                @YAxis.performed -= m_Wrapper.m_KeyboardActionsCallbackInterface.OnYAxis;
+                @YAxis.canceled -= m_Wrapper.m_KeyboardActionsCallbackInterface.OnYAxis;
+                @XAxis.started -= m_Wrapper.m_KeyboardActionsCallbackInterface.OnXAxis;
+                @XAxis.performed -= m_Wrapper.m_KeyboardActionsCallbackInterface.OnXAxis;
+                @XAxis.canceled -= m_Wrapper.m_KeyboardActionsCallbackInterface.OnXAxis;
             }
             m_Wrapper.m_KeyboardActionsCallbackInterface = instance;
             if (instance != null)
@@ -309,6 +405,12 @@ public partial class @GameInput : IInputActionCollection2, IDisposable
                 @ChangeWeapon.started += instance.OnChangeWeapon;
                 @ChangeWeapon.performed += instance.OnChangeWeapon;
                 @ChangeWeapon.canceled += instance.OnChangeWeapon;
+                @YAxis.started += instance.OnYAxis;
+                @YAxis.performed += instance.OnYAxis;
+                @YAxis.canceled += instance.OnYAxis;
+                @XAxis.started += instance.OnXAxis;
+                @XAxis.performed += instance.OnXAxis;
+                @XAxis.canceled += instance.OnXAxis;
             }
         }
     }
@@ -327,5 +429,7 @@ public partial class @GameInput : IInputActionCollection2, IDisposable
         void OnAxis(InputAction.CallbackContext context);
         void OnShot(InputAction.CallbackContext context);
         void OnChangeWeapon(InputAction.CallbackContext context);
+        void OnYAxis(InputAction.CallbackContext context);
+        void OnXAxis(InputAction.CallbackContext context);
     }
 }

@@ -12,7 +12,6 @@ namespace Asteroids.ECS.Views
         [SerializeField] private SpriteRenderer _icon;
         [SerializeField] private Rigidbody2D _rigidbody;
         [SerializeField] private int _entity;
-
         public int Entity => _entity;
         public void Convert(IEcsSystems ecsSystems)
         {
@@ -41,8 +40,7 @@ namespace Asteroids.ECS.Views
             movementData.MoveSpeed = ability.Speed;
             
             ecsWorld.GetPool<DirectionData>().Add(_entity);
-
-            ecsWorld.GetPool<Planet>().Add(_entity);
+            ecsWorld.GetPool<PlanetAction>().Add(_entity);
         }
     }
 }

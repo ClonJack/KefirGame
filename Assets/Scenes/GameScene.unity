@@ -588,10 +588,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e223bd9189dd4f64bd6f061759978a94, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _ammoViewPool:
+  _ammoPool:
     _parent: {fileID: 605533670}
     _instance: {fileID: 8274364620676270879, guid: 13bdb2336b13b9045a360a6d1274a260, type: 3}
-  _planetViewPool:
+  _planetPool:
     _parent: {fileID: 1592983362}
     _instance: {fileID: 3998291003682709503, guid: 49a84f64707fd314b908b3f1afc3da0f, type: 3}
 --- !u!4 &1940700286

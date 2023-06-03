@@ -7,12 +7,13 @@ namespace ECS.Systems
 {
     public class BoundsCameraSystem : IEcsInitSystem, IEcsRunSystem
     {
-        private readonly EcsFilterInject<Inc<ComponentRef<Rigidbody2D>>> _filter = default;
+        private readonly EcsFilterInject<Inc<Unit>> _filter = default;
 
         private readonly EcsPoolInject<ComponentRef<Rigidbody2D>> _rigidbodyRefPool = default;
 
         private Vector3 _maxBoundCamera;
         private Vector3 _minBoundCamera;
+
         public void Init(IEcsSystems systems)
         {
             _maxBoundCamera = Camera.main.ViewportToWorldPoint(Vector2.one);
@@ -26,7 +27,7 @@ namespace ECS.Systems
                 ref var rigidbodyRef = ref _rigidbodyRefPool.Value.Get(entity);
                 var currentPosition = new Vector2(rigidbodyRef.Component.transform.position.x,
                     rigidbodyRef.Component.transform.position.y);
-                
+
                 if (currentPosition.y > _maxBoundCamera.y)
                     rigidbodyRef.Component.MovePosition(-currentPosition + Vector2.up);
                 else if (currentPosition.y < _minBoundCamera.y)
@@ -35,7 +36,6 @@ namespace ECS.Systems
                     rigidbodyRef.Component.MovePosition(-currentPosition + Vector2.right);
                 else if (currentPosition.x < _minBoundCamera.x)
                     rigidbodyRef.Component.MovePosition(-currentPosition + Vector2.left);
-                
             }
         }
     }

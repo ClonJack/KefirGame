@@ -14,9 +14,4 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _prefab: {fileID: 6571026417246288588, guid: 401910c1b83dd534eabe85fdfe4599e9, type: 3}
   rotationSpeed: 150
-  moveSpeed: 5
-  _modelShot:
-    CoolDown: 1
-    Damage: 50
-    Speed: 800
-    EWeaponShot: 0
+  moveSpeed: 150

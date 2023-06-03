@@ -5,9 +5,9 @@ namespace Asteroids.Services
 {
     public class PoolServices : MonoBehaviour
     {
-        [SerializeField] private Pool<AmmoView> _ammoViewPool;
-        [SerializeField] private Pool<PlanetView> _planetViewPool;
-        public Pool<AmmoView> AmmoViewPool => _ammoViewPool;
-        public Pool<PlanetView> PlanetViewPool => _planetViewPool;
+        [SerializeField] private Pool<AmmoView> _ammoPool;
+        [SerializeField] private Pool<PlanetView> _planetPool;
+        public Pool<AmmoView> AmmoPool => _ammoPool;
+        public Pool<PlanetView> PlanetPool => _planetPool;
     }
 }

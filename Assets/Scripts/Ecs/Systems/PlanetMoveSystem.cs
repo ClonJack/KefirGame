@@ -5,22 +5,29 @@ using UnityEngine;
 
 namespace ECS.Systems
 {
-    public class PlanetMoveSystem : IEcsInitSystem
+    public class PlanetMoveSystem : IEcsInitSystem, IEcsRunSystem
     {
-        private readonly EcsFilterInject<Inc<Planet>> _filter = default;
-        
+        private readonly EcsFilterInject<Inc<PlanetAction>> _filter = default;
+
         private readonly EcsPoolInject<DirectionData> _directionDataPool = default;
         private readonly EcsPoolInject<MoveAction> _moveActionPool = default;
+
+        private Vector2 _maxBoundCamera = default;
+        private Vector2 _minBoundCamera = default;
+
         public void Init(IEcsSystems systems)
         {
-            var maxBoundCamera = Camera.main.ViewportToWorldPoint(Vector2.one);
-            var minBoundCamera = Camera.main.ViewportToWorldPoint(Vector2.zero);
-            
+            _maxBoundCamera = Camera.main.ViewportToWorldPoint(Vector2.one);
+            _minBoundCamera = Camera.main.ViewportToWorldPoint(Vector2.zero);
+        }
+
+        public void Run(IEcsSystems systems)
+        {
             foreach (var entity in _filter.Value)
             {
-                var rand = new Vector3(Random.Range(minBoundCamera.x, maxBoundCamera.x),
-                    Random.Range(minBoundCamera.y, maxBoundCamera.y));
-                
+                var rand = new Vector3(Random.Range(_minBoundCamera.x, _maxBoundCamera.x),
+                    Random.Range(_minBoundCamera.y, _maxBoundCamera.y));
+
                 ref var direction = ref _directionDataPool.Value.Get(entity);
                 direction.Direction = rand;
 

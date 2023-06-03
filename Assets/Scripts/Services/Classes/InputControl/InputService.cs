@@ -1,30 +1,38 @@
-using UnityEngine;
+using System;
+using InputControl.Template;
 
 namespace InputControl
 {
-    public class InputService : IInputService
+    public class InputService : IInputService, IDisposable
     {
-        private readonly InputGameControl _inputGameControl;
+        private GameInput _gameInput = null;
+        public IAxisInputModel AxisInput { get; set; }
+        public IValueInputModel YAxis { get; set; }
+        public IValueInputModel XAxis { get; set; }
+        public IKeyInputModel Shot { get; set; }
+        public IKeyInputModel ChangeWeapon { get; set; }
 
-        public Vector2 Axis { get; set; }
-        public bool IsShot { get; set; }
-        public bool IsChangeWeapon { get; set; }
-
-        public InputService(InputGameControl inputGameControl)
+        public InputService()
         {
-            _inputGameControl = inputGameControl;
+            _gameInput = new GameInput();
+            
+            _gameInput.Enable();
+
+            AxisInput = new AxisInputModel(_gameInput.Keyboard.Axis);
+
+            YAxis = new InputValueModel(_gameInput.Keyboard.YAxis);
+            
+            XAxis = new InputValueModel(_gameInput.Keyboard.XAxis);
+
+            Shot = new InputKeyModel(_gameInput.Keyboard.Shot);
+            
+            ChangeWeapon = new InputKeyModel(_gameInput.Keyboard.ChangeWeapon);
         }
 
-        public void Update()
+        public void Dispose()
         {
-            Keyboard();
-        }
-
-        private void Keyboard()
-        {
-            Axis = _inputGameControl.KeyboardInput.Axis.Value;
-            IsShot = _inputGameControl.KeyboardInput.Shot.IsHold;
-            IsChangeWeapon = _inputGameControl.KeyboardInput.ChangeWeapon.IsPressed;
+            _gameInput?.Dispose();
+            _gameInput?.Disable();
         }
     }
 }

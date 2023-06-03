@@ -10,10 +10,10 @@ namespace ECS.Systems
     {
         private readonly EcsFilterInject<Inc<AbilityData>> _filter = default;
 
-        private readonly EcsPoolInject<ShotData> _shotDataPool = default;
+        private readonly EcsPoolInject<ShotAction> _shotDataPool = default;
         private readonly EcsPoolInject<TimerData> _timerDataPool = default;
         private readonly EcsPoolInject<IndexAmmoData> _indexAmmoPool = default;
-        private readonly EcsPoolInject<ReloadAction> _attackProcessPool = default;
+        private readonly EcsPoolInject<ReloadAction> _reloadDataPool = default;
 
         private readonly EcsCustomInject<MainConfig> _mainfConfig = default;
 
@@ -21,7 +21,7 @@ namespace ECS.Systems
         {
             foreach (var entity in _filter.Value)
             {
-                if (!_attackProcessPool.Value.Has(entity))
+                if (!_reloadDataPool.Value.Has(entity))
                 {
                     _timerDataPool.Value.Del(entity);
                     continue;

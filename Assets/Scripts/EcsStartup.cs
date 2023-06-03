@@ -14,8 +14,7 @@ namespace Asteroids.ECS
     {
         [SerializeField] private MainConfig _mainConfig = default;
         [SerializeField] private PoolServices _poolServices = default;
-
-        private InputGameControl _inputGameControl = default;
+        
         private InputService _inputService = default;
         private EcsWorld _world = default;
 
@@ -24,10 +23,7 @@ namespace Asteroids.ECS
 
         private void Awake()
         {
-            _inputGameControl = new InputGameControl();
-            _inputGameControl.Init();
-
-            _inputService = new InputService(_inputGameControl);
+            _inputService = new InputService();
         }
 
         private void Start()
@@ -40,53 +36,55 @@ namespace Asteroids.ECS
 #endif
 
             _systemUpdate
+                    
                 .Add(new PlayerInputSystem())
+                .Add(new ChangeWeaponSystem())
                 .Add(new AttackTriggerSystem())
                 .Add(new WeaponReloadSystem())
-                .Add(new ChangeWeaponSystem())
+                .Add(new ShotSystem())
                 .Add(new AmmoLifeTimeSystem())
-                .DelHere<AttackAction>()
-                .DelHere<ReloadAction>()
+                
                 .DelHere<ChangeAction>()
+                .DelHere<AttackAction>() 
+                .DelHere<ReloadAction>()
+                .DelHere<ShotAction>()
+                
                 .Inject(_mainConfig)
                 .Inject(_inputService)
                 .Inject(_poolServices)
+                
                 .Init();
 
             _systemsFixedUpdate
                 .Add(new PlayerInitSystem())
-                .Add(new PlanetInitSystem())
+           //     .Add(new PlanetInitSystem())
                 .Add(new SceneInitSystem())
-                .Add(new PlanetMoveSystem())
+             //   .Add(new PlanetMoveSystem())
                 .Add(new MovementSystem())
+                .Add(new RotationSystem())
                 .Add(new BoundsCameraSystem())
-                .Add(new AttackSystem())
-                .DelHere<ShotData>()
+               
                 .DelHere<MoveAction>()
+                .DelHere<PlanetAction>()
+                
                 .Inject(_mainConfig)
                 .Inject(_poolServices)
+                
                 .Init();
         }
 
         private void Update()
         {
             _systemUpdate?.Run();
-            _inputService?.Update();
         }
 
         private void FixedUpdate()
         {
             _systemsFixedUpdate?.Run();
         }
-
-        private void OnEnable()
-        {
-            _inputGameControl.Enable();
-        }
-
+        
         private void OnDestroy()
         {
-            _inputGameControl.Disable();
             if (_systemsFixedUpdate != null)
             {
                 _systemsFixedUpdate.Destroy();

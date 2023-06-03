@@ -21,7 +21,7 @@ namespace ECS.Systems
                 coolDownData.Timer -= Time.deltaTime;
                 if (coolDownData.Timer <= 0)
                 {
-                    _servicesRefPool.Value.AmmoViewPool.GetPool().Release(coolDownData.Ammo);
+                    _servicesRefPool.Value.AmmoPool.GetPool().Release(coolDownData.Ammo);
                     
                     _coolDownDataPool.Value.Del(entity);
                 }

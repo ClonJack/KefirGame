@@ -1,6 +1,6 @@
 namespace Asteroids.Components
 {
-    public struct Planet
+    public struct MoveLocalAction
     {
         
     }

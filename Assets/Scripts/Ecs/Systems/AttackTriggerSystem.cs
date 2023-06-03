@@ -1,5 +1,4 @@
 using Asteroids.Components;
-using Asteroids.ECS.Ecs.Extension;
 using Leopotam.EcsLite;
 using Leopotam.EcsLite.Di;
 
@@ -9,7 +8,7 @@ namespace ECS.Systems
     {
         private readonly EcsFilterInject<Inc<AttackAction>> _filter = default;
 
-        private readonly EcsPoolInject<ReloadAction> _attackProcessPool = default;
+        private readonly EcsPoolInject<ReloadAction> _reloadPool = default;
 
         private readonly EcsPoolInject<WeaponData> _weaponDataPool = default;
         
@@ -23,7 +22,7 @@ namespace ECS.Systems
                     var entityUnpackacked = ecsPackedEntity.Unpack(systems.GetWorld(), out var indexUnpacked);
                     if (!entityUnpackacked) continue;
 
-                    _attackProcessPool.Value.Add(indexUnpacked);
+                    _reloadPool.Value.Add(indexUnpacked);
                 }
             }
         }

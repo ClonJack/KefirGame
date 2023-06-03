@@ -10,7 +10,6 @@ namespace Asteroids.Views
     public class ArmPlaceView : MonoBehaviour, IConverter, IBinding<List<EcsPackedEntity>>
     {
         private List<EcsPackedEntity> _packedEntities = default;
-
         public void Convert(IEcsSystems ecsSystems)
         {
             var ecsWorld = ecsSystems.GetWorld();
@@ -29,6 +28,9 @@ namespace Asteroids.Views
 
             ref var componentRef = ref ecsWorld.GetPool<ComponentRef<Transform>>().Add(entity);
             componentRef.Component = transform;
+            
+            ref var movementData = ref ecsWorld.GetPool<MovementData>().Add(entity);
+            movementData.MoveSpeed = ability.Speed;
             
             _packedEntities.Add(ecsWorld.PackEntity(entity));
         }
